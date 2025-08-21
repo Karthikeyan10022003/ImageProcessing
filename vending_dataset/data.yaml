@@ -1,8 +1,0 @@
-path: D:\img_processing_trial\vending_dataset
-train: images/train
-val: images/val
-
-names:
-  0: KitKat_chocolate
-  1: Kurkure
-  2: Lays_chips
