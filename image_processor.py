@@ -1,7 +1,7 @@
 import requests
 import cv2
 from ultralytics import YOLO
-
+import os
 def image_detection(model, image_path):
     try:
   
@@ -20,8 +20,9 @@ def image_detection(model, image_path):
         cv2.imshow("Snack Detection", annotated_frame)
         cv2.waitKey(0)
         
-
-        cv2.imwrite("output_image.jpg", annotated_frame)
+        os.makedirs("output", exist_ok=True)
+        
+        cv2.imwrite(r"output\output_image.jpg", annotated_frame)
     except(KeyboardInterrupt):
         print("Error: Keyboard interrupt detected. Exiting.")
     finally:
