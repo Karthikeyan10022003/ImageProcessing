@@ -1,3 +1,5 @@
+#Step 0 label data using label-studio
+#Step 1 
 !unzip -q /content/data.zip -d /content/custom_data
 
 #Step 2 split the data.zip needed to be trained 
@@ -8,9 +10,10 @@
 
 
 #Step 3 Install dependencies required
-!pip Install ultralytics
+!pip install ultralytics
 
 #Function to generate yaml file before training
+
 # Python function to automatically create data.yaml config file
 # 1. Reads "classes.txt" file to get list of class names
 # 2. Creates data dictionary with correct paths to folders, number of classes, and names of classes

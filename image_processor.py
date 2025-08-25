@@ -12,7 +12,7 @@ def image_detection(model, image_path):
             return
 
         
-        results = model(frame, conf=0.5, imgsz=1280)
+        results = model(frame, conf=0.1, imgsz=1280)
       
        
         annotated_frame = results[0].plot()
@@ -33,15 +33,19 @@ def image_detection(model, image_path):
 
 
 def main():
-    model = YOLO(r"D:\img_processing_trial\img_processing_trial\kitkat_and_lays.pt")
-    image_path=r"D:\img_processing_trial\img_processing_trial\Screenshot 2025-08-11 144949.png"
+    # model = YOLO(r"D:\img_processing_trial\img_processing_trial\kitkat_lays_kurkure.pt")
+    model=YOLO(r"C:\Users\riota\Downloads\best.pt")
+    image_path=r"D:\img_processing_trial\img_processing_trial\test_input.jpg"
     img_link = requests.get("https://images-cdn.ubuy.co.in/63759dbdf83d7d0f39136a74-adbi-39-s-box-variety-pack-40.jpg").content
     file_name='test_input.jpg'
     with open(file_name, 'wb') as f:
         f.write(img_link)
-
+   
     image_detection(model, image_path)
-    
+
+
+
+ 
 
 
 if __name__ == "__main__":
