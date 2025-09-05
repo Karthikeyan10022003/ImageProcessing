@@ -184,7 +184,7 @@ class MainActivity : Activity(), SurfaceHolder.Callback {
                 }
                 session.setRepeatingRequest(builder.build(), null, null)
                 recorder.start()
-                if (camIndex == 1) session1 = session else session2 = session
+                if (camIndex == 0) session1 = session else session2 = session
                 Log.d("XY6126", "Camera $camIndex recording started")
             }
 
@@ -197,44 +197,54 @@ class MainActivity : Activity(), SurfaceHolder.Callback {
     private fun scheduleStop() {
         Handler(Looper.getMainLooper()).postDelayed({
             stopRecording()
-            finish()
-        }, 30000)
+//            Handler(Looper.getMainLooper()).postDelayed({
+//                startRecording()
+//                scheduleStop()
+//            },2000
+//
+//            )
+
+        }, 30000) // 30 seconds
     }
 
     private fun stopRecording() {
         try {
-            recorder1?.apply {
-                try {
-                    stop()
+            recorder1?.let {
+                try { it.stop() } catch (e: Exception) {
+                    Log.e("XY6126", "Error stopping cam recorder 1", e)
                 }
-                catch (e:IllegalStateException){
-                    Log.e("XY6126","recorder1 not started")
+                try { it.release() } catch (e: Exception) {
+                    Log.e("XY6126", "Error releasing cam recorder 1", e)
                 }
-            };
-            recorder1?.release();
+            }
+            recorder1 = null
 
-            recorder2?.apply {
-                try {
-                    stop()
+            recorder2?.let {
+                try { it.stop() } catch (e: Exception) {
+                    Log.e("XY6126", "Error stopping cam recorder 2", e)
                 }
-                catch (e:IllegalStateException){
-                    Log.e("XY6126","recorder1 not started")
+                try { it.release() } catch (e: Exception) {
+                    Log.e("XY6126", "Error releasing cam recorder 2", e)
                 }
-            };
-            recorder2?.release();
+            }
+            recorder2 = null
 
+            cameraDevice1?.close()
+            cameraDevice1 = null
+            cameraDevice2?.close()
+            cameraDevice2 = null
 
-            cameraDevice1?.close();
-            cameraDevice2?.close();
-
-            session1?.close();
-            session2?.close();
+            session1?.close()
+            session1 = null
+            session2?.close()
+            session2 = null
 
             Log.d("XY6126", "Recordings stopped")
         } catch (e: Exception) {
             Log.e("XY6126", "Error stopping recording", e)
         }
     }
+
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
